@@ -1,45 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: web-deployment
+  name: postgres # Sets service name
+  labels:
+    app: postgres-db # Labels and Selectors
 spec:
+  type: NodePort # Sets service type
+  ports:
+    - port: 5432 # Sets port to run the postgres application
   selector:
-    matchLabels:
-      app: web-httpd
-  replicas: 10
-  template:
-    metadata:
-      labels:
-        app: web-httpd
-    spec:
-      containers:
-        - name: web-httpd
-          image: httpd:2.4.55
-          ports:
-            - containerPort: 80
-      nodeSelector:
-        role: worker
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nodejs-deployment
-spec:
-  selector:
-    matchLabels:
-      app: nodejs-app
-  replicas: 4
-  template:
-    metadata:
-      labels:
-        app: nodejs-app
-    spec:
-      containers:
-        - name: nodejs-app
-          image: node:19-alpine3.16
-          command: ["sleep", "100000"]
-      nodeSelector:
-        role: worker
+    app: postgres-db
 ---
 apiVersion: apps/v1
 kind: Deployment
