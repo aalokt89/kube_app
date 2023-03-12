@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodejs-deployment
+  name: nodejs-app-deployment
 spec:
   selector:
     matchLabels:
@@ -16,5 +16,3 @@ spec:
         - name: nodejs-app
           image: node:19-alpine3.16
           command: ["sleep", "100000"]
-      nodeSelector:
-        role: worker
